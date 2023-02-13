@@ -32,12 +32,19 @@ const addWord = async (req, res) => {
 };
 
 const getOneWord = async (req, res) => {
-  const {param} = req.params;
+  const { param } = req.params;
   try {
-    const word = await Words.find({$or: [{german_word: param}, {english_translation: param}, {bosnian_translation: param}, {polish_translation: param}, {hindi_translation: param}],}) 
-    res.status(200).json(word)
-  }
-  catch (error) {
+    const word = await Words.find({
+      $or: [
+        { german_word: { $regex: new RegExp(`.*${param}.*`, "i") } },
+        { english_translation: { $regex: new RegExp(`.*${param}.*`, "i") } },
+        { bosnian_translation: { $regex: new RegExp(`.*${param}.*`, "i") } },
+        { polish_translation: { $regex: new RegExp(`.*${param}.*`, "i") } },
+        { hindi_translation: { $regex: new RegExp(`.*${param}.*`, "i") } },
+      ],
+    });
+    res.status(200).json(word);
+  } catch (error) {
     res.status(500).json({ error });
   }
 };
