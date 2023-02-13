@@ -31,7 +31,19 @@ const addWord = async (req, res) => {
   }
 };
 
+const getOneWord = async (req, res) => {
+  const {param} = req.params;
+  try {
+    const word = await Words.find({$or: [{german_word: param}, {english_translation: param}, {bosnian_translation: param}, {polish_translation: param}, {hindi_translation: param}],}) 
+    res.status(200).json(word)
+  }
+  catch (error) {
+    res.status(500).json({ error });
+  }
+};
+
 module.exports = {
   getAllWords,
   addWord,
+  getOneWord,
 };
