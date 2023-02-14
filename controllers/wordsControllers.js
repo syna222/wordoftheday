@@ -33,6 +33,7 @@ const addWord = async (req, res) => {
 
 const getOneWord = async (req, res) => {
   const { param } = req.params;
+  // console.log(req.params);
   try {
     const word = await Words.find({
       $or: [
